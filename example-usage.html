@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Design System Usage Examples</title>
+    <link rel="stylesheet" href="design-tokens.css">
+    <link rel="stylesheet" href="example-components.css">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: var(--color-primary-surface);
+            font-family: var(--font-family-primary);
+        }
+        
+        .demo-section {
+            margin-bottom: var(--spacing-8);
+        }
+        
+        .demo-title {
+            font-size: var(--text-heading-font-size);
+            font-weight: var(--text-heading-font-weight);
+            color: var(--text-heading-color);
+            margin-bottom: var(--spacing-4);
+            padding: 0 var(--spacing-4);
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar Example -->
+    <nav class="nav-bar">
+        <h1 class="nav-bar-title">YumCheck</h1>
+        <div class="nav-bar-actions">
+            <button class="btn btn-ghost">Settings</button>
+        </div>
+    </nav>
+
+    <div class="container">
+        <!-- Typography Examples -->
+        <section class="demo-section">
+            <h2 class="demo-title">Typography</h2>
+            <div class="card">
+                <h1 class="text-title">Title Text</h1>
+                <h2 class="text-heading">Heading Text</h2>
+                <h3 class="text-subheading">Subheading Text</h3>
+                <p class="text-body">Body text for regular content and descriptions.</p>
+                <p class="text-caption">Caption text for secondary information.</p>
+                <span class="text-label">Label text for form elements.</span>
+            </div>
+        </section>
+
+        <!-- Button Examples -->
+        <section class="demo-section">
+            <h2 class="demo-title">Buttons</h2>
+            <div class="card">
+                <div style="display: flex; gap: var(--spacing-3); flex-wrap: wrap;">
+                    <button class="btn btn-primary">Primary Button</button>
+                    <button class="btn btn-secondary">Secondary Button</button>
+                    <button class="btn btn-ghost">Ghost Button</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Card Examples -->
+        <section class="demo-section">
+            <h2 class="demo-title">Cards</h2>
+            <div class="card-collection">
+                <div class="card">
+                    <h3 class="text-heading">Default Card</h3>
+                    <p class="text-body">This is a standard card with default styling using design system tokens.</p>
+                </div>
+                
+                <div class="card card-subtle">
+                    <h3 class="text-heading">Subtle Card</h3>
+                    <p class="text-body">This card uses a subtle background with a light border for a clean, minimal look.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- List Item Examples -->
+        <section class="demo-section">
+            <h2 class="demo-title">List Items</h2>
+            <div class="list-view">
+                <div class="list-item">
+                    <div class="list-item-icon">📱</div>
+                    <div class="list-item-content">
+                        <h4 class="list-item-title">Product Scanner</h4>
+                        <p class="list-item-subtitle">Scan barcodes to check ingredients</p>
+                    </div>
+                    <div class="status-indicator status-indicator-good"></div>
+                </div>
+                
+                <div class="list-item">
+                    <div class="list-item-icon">📋</div>
+                    <div class="list-item-content">
+                        <h4 class="list-item-title">Product List</h4>
+                        <p class="list-item-subtitle">View your scanned products</p>
+                    </div>
+                    <div class="list-item-badge list-item-badge-warning">New</div>
+                </div>
+                
+                <div class="list-item">
+                    <div class="list-item-icon">⚙️</div>
+                    <div class="list-item-content">
+                        <h4 class="list-item-title">Settings</h4>
+                        <p class="list-item-subtitle">Configure your preferences</p>
+                    </div>
+                    <div class="status-indicator status-indicator-neutral"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Card Variants Examples -->
+        <section class="demo-section">
+            <h2 class="demo-title">Card Variants</h2>
+            <div class="card">
+                <h3 class="text-heading">Design System Cards</h3>
+                <p class="text-body">The design system provides consistent card patterns with subtle variations for different use cases.</p>
+                
+                <div class="card-subtle" style="margin-top: 16px;">
+                    <h4 class="text-subheading">Subtle Card</h4>
+                    <p class="text-body">This card variant uses a subtle background with a light border for secondary content.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Grid Layout Example -->
+        <section class="demo-section">
+            <h2 class="demo-title">Grid Layout</h2>
+            <div class="grid grid-2">
+                <div class="card">
+                    <h4 class="text-subheading">Grid Item 1</h4>
+                    <p class="text-body">First grid item with consistent spacing.</p>
+                </div>
+                <div class="card">
+                    <h4 class="text-subheading">Grid Item 2</h4>
+                    <p class="text-body">Second grid item with consistent spacing.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Spacing and Utility Examples -->
+        <section class="demo-section">
+            <h2 class="demo-title">Spacing & Utilities</h2>
+            <div class="card">
+                <div class="p-4 bg-primary-blue rounded-lg shadow-card">
+                    <p class="text-body">This element uses utility classes for padding, primary blue background, border radius, and shadow.</p>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Tab Bar Example -->
+    <div class="tab-bar">
+        <div class="tab-item tab-item-active">
+            <div class="tab-item-icon">🏠</div>
+            <span class="tab-item-label">Home</span>
+        </div>
+        <div class="tab-item">
+            <div class="tab-item-icon">📱</div>
+            <span class="tab-item-label">Scan</span>
+        </div>
+        <div class="tab-item">
+            <div class="tab-item-icon">📋</div>
+            <span class="tab-item-label">List</span>
+        </div>
+        <div class="tab-item">
+            <div class="tab-item-icon">⚙️</div>
+            <span class="tab-item-label">Settings</span>
+        </div>
+    </div>
+
+    <script>
+        // Simple interaction examples
+        document.addEventListener('DOMContentLoaded', function() {
+            // Tab interaction
+            const tabItems = document.querySelectorAll('.tab-item');
+            tabItems.forEach(tab => {
+                tab.addEventListener('click', function() {
+                    tabItems.forEach(t => t.classList.remove('tab-item-active'));
+                    this.classList.add('tab-item-active');
+                });
+            });
+        });
+    </script>
+</body>
+</html>

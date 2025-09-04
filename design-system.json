@@ -1,0 +1,352 @@
+[{
+  "designSystem": {
+    "name": "Modern Mobile App Design System",
+    "version": "1.0.0",
+    "description": "Clean, modern mobile app design system with card-based layouts and soft color palettes"
+  },
+  
+  "colorPalette": {
+    "primary": {
+      "background": "#FFFFFF",
+      "surface": "#F8F9FA",
+      "cardBackground": "#FFFFFF"
+    },
+    "accent": {
+      "primaryBlue": "#007AFF"
+    },
+    "neutral": {
+      "black": "#000000",
+      "darkGray": "#1C1C1E",
+      "mediumGray": "#8E8E93",
+      "lightGray": "#F2F2F7",
+      "offWhite": "#FAFAFA"
+    },
+    "semantic": {
+      "success": "#34C759",
+      "warning": "#FFD60A", 
+      "error": "#FF3B30"
+    },
+    "statusIndicators": {
+      "good": "#34C759",
+      "bad": "#FF3B30",
+      "warning": "#FFD60A"
+    }
+  },
+
+  "typography": {
+    "fontFamily": {
+      "primary": "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
+    },
+    "fontSizes": {
+      "xs": "12px",
+      "sm": "14px", 
+      "base": "16px",
+      "lg": "18px",
+      "xl": "20px",
+      "2xl": "24px",
+      "3xl": "32px"
+    },
+    "fontWeights": {
+      "regular": 400,
+      "medium": 500,
+      "semibold": 600,
+      "bold": 700
+    },
+    "hierarchy": {
+      "title": {
+        "fontSize": "3xl",
+        "fontWeight": "bold",
+        "color": "black"
+      },
+      "heading": {
+        "fontSize": "xl",
+        "fontWeight": "semibold",
+        "color": "black"
+      },
+      "subheading": {
+        "fontSize": "lg",
+        "fontWeight": "medium",
+        "color": "darkGray"
+      },
+      "body": {
+        "fontSize": "base",
+        "fontWeight": "regular",
+        "color": "darkGray"
+      },
+      "caption": {
+        "fontSize": "sm",
+        "fontWeight": "regular",
+        "color": "mediumGray"
+      },
+      "label": {
+        "fontSize": "xs",
+        "fontWeight": "medium",
+        "color": "mediumGray"
+      }
+    }
+  },
+
+  "spacing": {
+    "scale": "4px",
+    "values": {
+      "0": "0px",
+      "1": "4px",
+      "2": "8px", 
+      "3": "12px",
+      "4": "16px",
+      "5": "20px",
+      "6": "24px",
+      "8": "32px",
+      "10": "40px",
+      "12": "48px",
+      "16": "64px"
+    }
+  },
+
+  "borderRadius": {
+    "none": "0px",
+    "sm": "4px",
+    "base": "8px",
+    "lg": "12px",
+    "xl": "16px",
+    "2xl": "24px",
+    "full": "50%"
+  },
+
+  "shadows": {
+    "none": "none",
+    "sm": "0 1px 2px 0 rgba(0, 0, 0, 0.05)",
+    "base": "0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06)",
+    "md": "0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)",
+    "lg": "0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)",
+    "card": "0 2px 8px rgba(0, 0, 0, 0.08)"
+  },
+
+  "layout": {
+    "container": {
+      "maxWidth": "100%",
+      "padding": "16px",
+      "margin": "0 auto"
+    },
+    "grid": {
+      "columns": 12,
+      "gap": "16px"
+    }
+  },
+
+  "components": {
+    "card": {
+      "background": "#FFFFFF",
+      "borderRadius": "xl",
+      "padding": "16px",
+      "shadow": "card",
+      "border": "none",
+      "variants": {
+        "default": {
+          "background": "#FFFFFF"
+        },
+        "subtle": {
+          "background": "#FAFAFA",
+          "border": "1px solid #F2F2F7"
+        }
+      }
+    },
+    
+    "button": {
+      "borderRadius": "lg",
+      "padding": "12px 24px",
+      "fontWeight": "semibold",
+      "fontSize": "base",
+      "variants": {
+        "primary": {
+          "background": "#007AFF",
+          "color": "#FFFFFF"
+        },
+        "secondary": {
+          "background": "#F2F2F7",
+          "color": "#000000"
+        },
+        "ghost": {
+          "background": "transparent",
+          "color": "#007AFF"
+        }
+      },
+      "states": {
+        "hover": {
+          "opacity": 0.8
+        },
+        "active": {
+          "transform": "scale(0.98)"
+        }
+      }
+    },
+
+    "listItem": {
+      "padding": "12px 16px",
+      "borderRadius": "lg",
+      "background": "#FFFFFF",
+      "shadow": "sm",
+      "marginBottom": "8px",
+      "structure": {
+        "layout": "flex",
+        "alignItems": "center",
+        "gap": "12px"
+      },
+      "elements": {
+        "icon": {
+          "width": "40px",
+          "height": "40px",
+          "borderRadius": "base"
+        },
+        "content": {
+          "flex": 1
+        },
+        "badge": {
+          "padding": "4px 8px",
+          "borderRadius": "full",
+          "fontSize": "xs",
+          "fontWeight": "medium"
+        }
+      }
+    },
+
+    "statusIndicator": {
+      "width": "8px",
+      "height": "8px", 
+      "borderRadius": "full",
+      "variants": {
+        "success": "#34C759",
+        "warning": "#FFD60A",
+        "error": "#FF3B30",
+        "neutral": "#8E8E93"
+      }
+    },
+
+    "navigationBar": {
+      "height": "44px",
+      "padding": "0 16px",
+      "background": "#FFFFFF",
+      "borderBottom": "1px solid #F2F2F7",
+      "structure": {
+        "layout": "flex",
+        "alignItems": "center",
+        "justifyContent": "space-between"
+      }
+    },
+
+    "tabBar": {
+      "height": "60px",
+      "background": "#FFFFFF",
+      "borderTop": "1px solid #F2F2F7",
+      "structure": {
+        "layout": "flex",
+        "alignItems": "center",
+        "justifyContent": "space-around"
+      }
+    },
+
+    "noteInterface": {
+      "background": "variable",
+      "borderRadius": "xl",
+      "padding": "20px",
+      "minHeight": "200px",
+      "colorOptions": {
+        "yellow": "#FFE4B5",
+        "pink": "#FFB6C1", 
+        "green": "#F0FFF0",
+        "blue": "#E6F3FF",
+        "purple": "#F3E8FF",
+        "orange": "#FFF0E6"
+      },
+      "controls": {
+        "colorPicker": {
+          "layout": "flex",
+          "gap": "8px",
+          "swatchSize": "24px",
+          "swatchBorderRadius": "full"
+        }
+      }
+    }
+  },
+
+  "patterns": {
+    "itemGrid": {
+      "structure": "grid",
+      "columns": 2,
+      "gap": "12px",
+      "itemAspectRatio": "1:1.2"
+    },
+    
+    "listView": {
+      "structure": "vertical stack",
+      "gap": "8px",
+      "padding": "16px"
+    },
+
+    "cardCollection": {
+      "structure": "vertical stack", 
+      "gap": "16px",
+      "padding": "16px"
+    },
+
+    "detailView": {
+      "structure": "sections",
+      "sectionGap": "24px",
+      "contentPadding": "16px"
+    }
+  },
+
+  "animations": {
+    "transitions": {
+      "fast": "150ms ease-out",
+      "normal": "250ms ease-out", 
+      "slow": "350ms ease-out"
+    },
+    "effects": {
+      "fadeIn": {
+        "opacity": "0 to 1",
+        "duration": "normal"
+      },
+      "slideIn": {
+        "transform": "translateY(20px) to translateY(0)",
+        "duration": "normal"
+      },
+      "scaleIn": {
+        "transform": "scale(0.95) to scale(1)",
+        "duration": "fast"
+      }
+    }
+  },
+
+  "designPrinciples": {
+    "visualHierarchy": {
+      "useWhitespace": "Generous spacing between elements",
+      "typography": "Clear size and weight distinctions",
+      "color": "Subtle use of color for categorization and status"
+    },
+    "consistency": {
+      "cardPattern": "Consistent rounded corners and shadows",
+      "spacing": "Uniform padding and margins throughout",
+      "iconography": "Consistent icon style and sizing"
+    },
+    "usability": {
+      "touchTargets": "Minimum 44px for interactive elements",
+      "feedback": "Clear visual feedback for interactions",
+      "readability": "High contrast text on backgrounds"
+    },
+    "aesthetics": {
+      "cleanDesign": "Minimal, uncluttered interfaces",
+      "softColors": "Muted, pleasant color palette",
+      "modernLayout": "Card-based, grid-oriented layouts"
+    }
+  },
+
+  "usage": {
+    "cardLayouts": "Use cards for distinct content groupings with consistent padding and shadows",
+    "colorCoding": "Apply soft colors to differentiate categories or note types",
+    "listStructure": "Maintain consistent spacing and alignment in list items",
+    "statusIndicators": "Use small colored dots or badges for status representation",
+    "navigationPattern": "Clean header with title and minimal action buttons",
+    "contentHierarchy": "Lead with visual elements (images/icons), follow with text hierarchy"
+  }
+}]
