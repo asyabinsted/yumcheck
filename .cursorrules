@@ -1,0 +1,42 @@
+# Design System Rules for YumCheck Project
+
+## Design System Reference
+Always reference the `design-system.json` file when creating or modifying UI components. This file contains the complete design system specification including:
+
+- Color palette (primary, accent, neutral, semantic colors)
+- Typography hierarchy and specifications
+- Spacing scale and values
+- Border radius values
+- Shadow definitions
+- Component specifications (cards, buttons, list items, etc.)
+- Layout patterns and animations
+
+## Design System Principles
+When creating UI components, follow these principles from the design system:
+
+1. **Visual Hierarchy**: Use generous spacing, clear typography distinctions, and subtle color usage
+2. **Consistency**: Apply consistent card patterns, spacing, and iconography
+3. **Usability**: Ensure minimum 44px touch targets, clear visual feedback, and high contrast
+4. **Aesthetics**: Maintain clean, minimal design with soft colors and card-based layouts
+
+## Component Guidelines
+- Use CSS custom properties from `design-tokens.css` for all styling
+- Follow the component specifications in the design system for cards, buttons, list items, etc.
+- Apply the defined spacing scale (4px increments) consistently
+- Use the specified border radius values and shadow definitions
+- Implement the color palette for semantic meaning and visual hierarchy
+
+## File Structure
+- `design-system.json` - Complete design system specification
+- `design-tokens.css` - CSS custom properties for easy implementation
+- `components/` - Reusable UI components following design system
+- `styles/` - Global styles and utilities
+
+## Implementation Notes
+- Always import `design-tokens.css` in your main CSS file
+- Use semantic color names (e.g., `var(--color-semantic-success)`) instead of hex values
+- Follow the spacing scale for consistent layouts
+- Apply the defined typography hierarchy for text elements
+- Use the component patterns for consistent UI structure
+
+When creating or modifying any UI component, ensure it aligns with the design system specifications and maintains consistency with the established patterns.
