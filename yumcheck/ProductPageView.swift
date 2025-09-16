@@ -12,8 +12,12 @@ struct ProductPageView: View {
     let barcode: String
     @Environment(\.dismiss) private var dismiss
     @State private var isFavorite = false
+    @State private var currentProduct: ProductInfo?
     
-    init(product: ProductInfo?, barcode: String) {
+    // Callback for when a product is successfully added
+    let onProductAdded: ((ProductInfo) -> Void)?
+    
+    init(product: ProductInfo?, barcode: String, onProductAdded: ((ProductInfo) -> Void)? = nil) {
         print("🎯 [DEBUG] ProductPageView: Initializing...")
         print("🎯 [DEBUG] ProductPageView: Current thread: \(Thread.isMainThread ? "Main" : "Background")")
         print("🎯 [DEBUG] ProductPageView: Timestamp: \(Date())")
@@ -23,6 +27,8 @@ struct ProductPageView: View {
         
         self.product = product
         self.barcode = barcode
+        self.onProductAdded = onProductAdded
+        self._currentProduct = State(initialValue: product)
         
         print("🎯 [DEBUG] ProductPageView: Initialized successfully")
     }
@@ -31,12 +37,18 @@ struct ProductPageView: View {
         NavigationView {
             ScrollView {
                 VStack(spacing: 24) {
-                    if let product = product {
+                    if let product = currentProduct {
                         // Product found
                         ProductFoundView(product: product, isFavorite: $isFavorite)
                     } else {
                         // Product not found
-                        ProductNotFoundView(barcode: barcode)
+                        ProductNotFoundView(
+                            barcode: barcode,
+                            onProductAdded: { addedProduct in
+                                currentProduct = addedProduct
+                                onProductAdded?(addedProduct)
+                            }
+                        )
                     }
                 }
                 .padding(.horizontal)
@@ -51,7 +63,7 @@ struct ProductPageView: View {
                     }
                 }
                 
-                if product != nil {
+                if currentProduct != nil {
                     ToolbarItem(placement: .navigationBarTrailing) {
                         Button(action: {
                             toggleFavorite()
@@ -69,13 +81,13 @@ struct ProductPageView: View {
     }
     
     private func checkFavoriteStatus() {
-        if let product = product {
+        if let product = currentProduct {
             isFavorite = LocalDatabaseService.shared.isFavorite(barcode: product.barcode)
         }
     }
     
     private func toggleFavorite() {
-        guard let product = product else { return }
+        guard let product = currentProduct else { return }
         
         if isFavorite {
             LocalDatabaseService.shared.removeFromFavorites(barcode: product.barcode)
@@ -324,6 +336,8 @@ struct ProductFoundView: View {
 
 struct ProductNotFoundView: View {
     let barcode: String
+    let onProductAdded: (ProductInfo) -> Void
+    @State private var showAddProductView = false
     
     var body: some View {
         VStack(spacing: 24) {
@@ -359,7 +373,7 @@ struct ProductNotFoundView: View {
             // Action buttons
             VStack(spacing: 12) {
                 Button(action: {
-                    // TODO: Add to database
+                    showAddProductView = true
                 }) {
                     HStack {
                         Image(systemName: "plus.circle.fill")
@@ -392,6 +406,15 @@ struct ProductNotFoundView: View {
         .background(Color(.systemBackground))
         .cornerRadius(16)
         .shadow(color: .black.opacity(0.05), radius: 8, x: 0, y: 2)
+        .sheet(isPresented: $showAddProductView) {
+            AddProductView(
+                prefilledBarcode: barcode,
+                onProductAdded: { product in
+                    onProductAdded(product)
+                    showAddProductView = false
+                }
+            )
+        }
     }
 }
 

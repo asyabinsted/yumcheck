@@ -76,7 +76,11 @@ struct MainTabView: View {
         .sheet(isPresented: $showProductPage) {
             ProductPageView(
                 product: productPageProduct,
-                barcode: productPageBarcode
+                barcode: productPageBarcode,
+                onProductAdded: { addedProduct in
+                    // Update the product page to show the newly added product
+                    productPageProduct = addedProduct
+                }
             )
         }
         .onChange(of: showProductPage) { isPresented in

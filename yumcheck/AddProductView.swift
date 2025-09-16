@@ -17,7 +17,10 @@ struct AddProductView: View {
     @State private var labels: [String] = []
     @State private var allergens: [String] = []
     @State private var ecoScore = ""
-    @State private var imageUrl = ""
+    @State private var selectedImage: UIImage?
+    @State private var uploadedImageUrl: String?
+    @State private var isUploadingImage = false
+    @State private var showOCRCapture = false
     @State private var quantity = ""
     
     @State private var newLabel = ""
@@ -26,6 +29,15 @@ struct AddProductView: View {
     @State private var showSuccessAlert = false
     @State private var showErrorAlert = false
     @State private var errorMessage = ""
+    
+    // Navigation callback for successful save
+    let onProductAdded: ((ProductInfo) -> Void)?
+    
+    // Initializer with optional barcode pre-fill and callback
+    init(prefilledBarcode: String? = nil, onProductAdded: ((ProductInfo) -> Void)? = nil) {
+        self.onProductAdded = onProductAdded
+        self._barcode = State(initialValue: prefilledBarcode ?? "")
+    }
     
     private let categories = [
         "Skincare", "Haircare", "Makeup", "Fragrance", "Body Care", 
@@ -96,19 +108,59 @@ struct AddProductView: View {
                         // Ingredients Section
                         FormSection(title: "Ingredients", icon: "leaf.fill") {
                             VStack(spacing: 16) {
+                                // OCR Scan Button
+                                Button(action: {
+                                    showOCRCapture = true
+                                }) {
+                                    HStack {
+                                        Image(systemName: "text.viewfinder")
+                                            .foregroundColor(.blue)
+                                        Text("Scan Ingredients Label")
+                                            .foregroundColor(.blue)
+                                        Spacer()
+                                        Image(systemName: "chevron.right")
+                                            .foregroundColor(.blue)
+                                            .font(.caption)
+                                    }
+                                    .padding()
+                                    .background(Color.blue.opacity(0.1))
+                                    .cornerRadius(8)
+                                }
+                                
                                 FormField(
                                     title: "Ingredients List",
                                     text: $ingredients,
-                                    placeholder: "Enter ingredients separated by commas",
+                                    placeholder: "Enter ingredients separated by commas, or scan from label",
                                     isMultiline: true
                                 )
+                            }
+                        }
+                        
+                        // Image Section
+                        FormSection(title: "Product Image", icon: "camera.fill") {
+                            VStack(spacing: 16) {
+                                ImagePickerView(selectedImage: $selectedImage, isPresented: .constant(false))
                                 
-                                FormField(
-                                    title: "Image URL",
-                                    text: $imageUrl,
-                                    placeholder: "https://example.com/image.jpg",
-                                    keyboardType: .URL
-                                )
+                                if isUploadingImage {
+                                    HStack {
+                                        ProgressView()
+                                            .scaleEffect(0.8)
+                                        Text("Uploading image...")
+                                            .font(.caption)
+                                            .foregroundColor(.secondary)
+                                    }
+                                }
+                                
+                                if uploadedImageUrl != nil {
+                                    HStack {
+                                        Image(systemName: "checkmark.circle.fill")
+                                            .foregroundColor(.green)
+                                        Text("Image uploaded successfully")
+                                            .font(.caption)
+                                            .foregroundColor(.green)
+                                    }
+                                }
+                                
                             }
                         }
                         
@@ -217,6 +269,25 @@ struct AddProductView: View {
             }
             .alert("Success!", isPresented: $showSuccessAlert) {
                 Button("OK") {
+                    // Call the navigation callback if provided
+                    if let callback = onProductAdded {
+                        let newProduct = ProductInfo(
+                            barcode: barcode,
+                            productName: productName,
+                            brands: brand,
+                            ingredientsText: ingredients.isEmpty ? nil : ingredients,
+                            imageUrl: uploadedImageUrl != nil ? URL(string: uploadedImageUrl!) : nil,
+                            category: category.isEmpty ? nil : category,
+                            quantity: quantity.isEmpty ? nil : quantity,
+                            imageFrontUrl: nil,
+                            imageIngredientsUrl: nil,
+                            imagePackagingUrl: nil,
+                            labels: labels,
+                            ecoScore: ecoScore.isEmpty ? nil : ecoScore,
+                            allergens: allergens
+                        )
+                        callback(newProduct)
+                    }
                     dismiss()
                 }
             } message: {
@@ -227,6 +298,12 @@ struct AddProductView: View {
             } message: {
                 Text(errorMessage)
             }
+        }
+        .sheet(isPresented: $showOCRCapture) {
+            VisionCameraCaptureView(
+                extractedText: $ingredients,
+                isPresented: $showOCRCapture
+            )
         }
     }
     
@@ -267,13 +344,44 @@ struct AddProductView: View {
         
         isLoading = true
         
+        // If there's a selected image but no uploaded URL, upload the image first
+        if let image = selectedImage, uploadedImageUrl == nil {
+            uploadImageAndSubmit(image)
+        } else {
+            // No image or already uploaded, proceed with product submission
+            submitProductWithImage()
+        }
+    }
+    
+    private func uploadImageAndSubmit(_ image: UIImage) {
+        isUploadingImage = true
+        let fileName = ImageUploadService.shared.generateFileName(for: barcode)
+        
+        ImageUploadService.shared.uploadImage(image, fileName: fileName) { result in
+            DispatchQueue.main.async {
+                isUploadingImage = false
+                
+                switch result {
+                case .success(let imageUrl):
+                    uploadedImageUrl = imageUrl
+                    submitProductWithImage()
+                case .failure(let error):
+                    isLoading = false
+                    errorMessage = "Failed to upload image: \(error.localizedDescription)"
+                    showErrorAlert = true
+                }
+            }
+        }
+    }
+    
+    private func submitProductWithImage() {
         // Create ProductInfo object
         let newProduct = ProductInfo(
             barcode: barcode,
             productName: productName,
             brands: brand,
             ingredientsText: ingredients.isEmpty ? nil : ingredients,
-            imageUrl: imageUrl.isEmpty ? nil : URL(string: imageUrl),
+            imageUrl: uploadedImageUrl != nil ? URL(string: uploadedImageUrl!) : nil,
             category: category.isEmpty ? nil : category,
             quantity: quantity.isEmpty ? nil : quantity,
             imageFrontUrl: nil,
@@ -299,6 +407,7 @@ struct AddProductView: View {
             }
         }
     }
+    
 }
 
 // MARK: - Supporting Views
@@ -339,6 +448,7 @@ struct FormField: View {
     let placeholder: String
     var keyboardType: UIKeyboardType = .default
     var isMultiline: Bool = false
+    @FocusState private var isFocused: Bool
     
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
@@ -348,19 +458,34 @@ struct FormField: View {
                 .foregroundColor(.primary)
             
             if isMultiline {
-                TextEditor(text: $text)
-                    .frame(minHeight: 80)
-                    .padding(8)
-                    .background(Color(.secondarySystemBackground))
-                    .cornerRadius(8)
-                    .overlay(
-                        RoundedRectangle(cornerRadius: 8)
-                            .stroke(Color(.separator), lineWidth: 1)
-                    )
+                ZStack(alignment: .topLeading) {
+                    TextEditor(text: $text)
+                        .frame(minHeight: 80)
+                        .padding(8)
+                        .background(Color(.secondarySystemBackground))
+                        .cornerRadius(8)
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 8)
+                                .stroke(Color(.separator), lineWidth: 1)
+                        )
+                        .focused($isFocused)
+                    
+                    if text.isEmpty {
+                        Text(placeholder)
+                            .foregroundColor(.secondary)
+                            .padding(.horizontal, 12)
+                            .padding(.vertical, 16)
+                            .allowsHitTesting(false)
+                    }
+                }
+                .onTapGesture {
+                    isFocused = true
+                }
             } else {
                 TextField(placeholder, text: $text)
                     .textFieldStyle(RoundedBorderTextFieldStyle())
                     .keyboardType(keyboardType)
+                    .focused($isFocused)
             }
         }
     }
