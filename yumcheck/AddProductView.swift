@@ -30,6 +30,14 @@ struct AddProductView: View {
     @State private var showErrorAlert = false
     @State private var errorMessage = ""
     
+    // Auto-fill states
+    @State private var isAutoFilling = false
+    @State private var autoFillProgress: Double = 0.0
+    @State private var showAutoFillSuggestions = false
+    @State private var autoFillSuggestions: [GoogleReverseImageSearchService.ProductSuggestion] = []
+    @State private var autoFillError: Error?
+    @State private var showAutoFillError = false
+    
     // Navigation callback for successful save
     let onProductAdded: ((ProductInfo) -> Void)?
     
@@ -140,6 +148,30 @@ struct AddProductView: View {
                         FormSection(title: "Product Image", icon: "camera.fill") {
                             VStack(spacing: 16) {
                                 ImagePickerView(selectedImage: $selectedImage, isPresented: .constant(false))
+                                
+                                // Auto-Fill Button
+                                if selectedImage != nil {
+                                    Button(action: performAutoFill) {
+                                        HStack {
+                                            if isAutoFilling {
+                                                ProgressView()
+                                                    .scaleEffect(0.8)
+                                                    .foregroundColor(.white)
+                                            } else {
+                                                Image(systemName: "wand.and.stars")
+                                            }
+                                            
+                                            Text(isAutoFilling ? "Analyzing..." : "Auto-Fill from Photo")
+                                                .fontWeight(.medium)
+                                        }
+                                        .frame(maxWidth: .infinity)
+                                        .padding()
+                                        .background(isAutoFilling ? Color.gray : Color.blue)
+                                        .foregroundColor(.white)
+                                        .cornerRadius(10)
+                                    }
+                                    .disabled(isAutoFilling)
+                                }
                                 
                                 if isUploadingImage {
                                     HStack {
@@ -305,6 +337,35 @@ struct AddProductView: View {
                 isPresented: $showOCRCapture
             )
         }
+        .sheet(isPresented: $showAutoFillSuggestions) {
+            AutoFillSuggestionsView(
+                suggestions: autoFillSuggestions,
+                onAcceptAll: acceptAllSuggestions,
+                onClearAll: clearAllSuggestions,
+                onAcceptSuggestion: acceptSuggestion,
+                onRejectSuggestion: rejectSuggestion
+            )
+        }
+        .overlay(
+            // Auto-fill loading overlay
+            Group {
+                if isAutoFilling {
+                    Color.black.opacity(0.3)
+                        .ignoresSafeArea()
+                    
+                    AutoFillLoadingView(progress: autoFillProgress)
+                        .frame(maxWidth: 300)
+                }
+            }
+        )
+        .alert("Auto-Fill Error", isPresented: $showAutoFillError) {
+            Button("OK") { }
+            Button("Retry") {
+                performAutoFill()
+            }
+        } message: {
+            Text(autoFillError?.localizedDescription ?? "An unknown error occurred.")
+        }
     }
     
     // MARK: - Computed Properties
@@ -406,6 +467,99 @@ struct AddProductView: View {
                 }
             }
         }
+    }
+    
+    // MARK: - Auto-Fill Methods
+    
+    private func performAutoFill() {
+        guard let image = selectedImage else { return }
+        
+        print("🔍 AddProductView: Starting auto-fill process...")
+        
+        isAutoFilling = true
+        autoFillProgress = 0.0
+        autoFillError = nil
+        
+        // Simulate progress updates
+        let progressTimer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true) { timer in
+            if autoFillProgress < 0.9 {
+                autoFillProgress += 0.05
+            } else {
+                timer.invalidate()
+            }
+        }
+        
+        GoogleReverseImageSearchService.shared.searchProductFromImage(image) { result in
+            progressTimer.invalidate()
+            
+            DispatchQueue.main.async {
+                isAutoFilling = false
+                autoFillProgress = 1.0
+                
+                switch result {
+                case .success(let searchResult):
+                    print("✅ AddProductView: Auto-fill successful - \(searchResult.suggestions.count) suggestions")
+                    autoFillSuggestions = searchResult.suggestions
+                    showAutoFillSuggestions = true
+                case .failure(let error):
+                    print("❌ AddProductView: Auto-fill failed - \(error.localizedDescription)")
+                    autoFillError = error
+                    showAutoFillError = true
+                }
+            }
+        }
+    }
+    
+    private func acceptAllSuggestions() {
+        guard let bestSuggestion = autoFillSuggestions.first else { return }
+        applySuggestion(bestSuggestion)
+        showAutoFillSuggestions = false
+    }
+    
+    private func clearAllSuggestions() {
+        autoFillSuggestions.removeAll()
+        showAutoFillSuggestions = false
+    }
+    
+    private func acceptSuggestion(_ suggestion: GoogleReverseImageSearchService.ProductSuggestion) {
+        applySuggestion(suggestion)
+        showAutoFillSuggestions = false
+    }
+    
+    private func rejectSuggestion(_ suggestion: GoogleReverseImageSearchService.ProductSuggestion) {
+        // Remove the rejected suggestion
+        autoFillSuggestions.removeAll { $0.name == suggestion.name }
+        
+        // If no more suggestions, close the sheet
+        if autoFillSuggestions.isEmpty {
+            showAutoFillSuggestions = false
+        }
+    }
+    
+    private func applySuggestion(_ suggestion: GoogleReverseImageSearchService.ProductSuggestion) {
+        print("📝 AddProductView: Applying suggestion - \(suggestion.name)")
+        
+        // Apply the suggestion to form fields
+        if productName.isEmpty {
+            productName = suggestion.name
+        }
+        
+        if brand.isEmpty, let suggestionBrand = suggestion.brand {
+            brand = suggestionBrand
+        }
+        
+        if category.isEmpty, let suggestionCategory = suggestion.category {
+            category = suggestionCategory
+        }
+        
+        // Add description as additional info if available
+        if let description = suggestion.description, !description.isEmpty {
+            // You could add this to a description field if you have one
+            print("📝 AddProductView: Description available: \(description)")
+        }
+        
+        // Clear suggestions after applying
+        autoFillSuggestions.removeAll()
     }
     
 }
