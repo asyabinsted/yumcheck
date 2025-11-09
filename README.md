@@ -15,3 +15,6 @@ YumCheck is a mobile app that helps shoppers scan groceries, review ingredient d
 ## Next Up
 - Build a personalized recommendations engine that combines shopping history, dietary preferences, and ingredient alerts to tailor suggestions for each user.
 
+## Recent Updates
+- Implemented a comprehensive color token system, refreshing `:root` base primitives and semantic tokens (including light/dark themes) to unify styling across the design system and app.
+

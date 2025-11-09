@@ -5,31 +5,156 @@
     "description": "Clean, modern mobile app design system with card-based layouts and soft color palettes"
   },
   
-  "colorPalette": {
-    "primary": {
-      "background": "#FFFFFF",
-      "surface": "#F8F9FA",
-      "cardBackground": "#FFFFFF"
+  "colorSystem": {
+    "primitivesHsl": {
+      "grey": {
+        "100": "210 20% 99%",
+        "200": "210 6% 89%",
+        "300": "210 4% 80%",
+        "400": "210 3% 70%",
+        "500": "210 2% 61%",
+        "600": "210 3% 51%",
+        "700": "210 4% 41%",
+        "800": "210 4% 32%",
+        "900": "0 0% 11%"
+      },
+      "blue": {
+        "100": "211 100% 95%",
+        "200": "207 98% 85%",
+        "300": "206 99% 75%",
+        "400": "206 99% 65%",
+        "500": "211 100% 40%",
+        "600": "221 71% 37%",
+        "700": "221 72% 28%",
+        "800": "221 73% 18%"
+      },
+      "lime": {
+        "100": "72 80% 96%",
+        "200": "72 79% 86%",
+        "300": "72 79% 77%",
+        "400": "72 79% 67%",
+        "500": "72 62% 56%",
+        "600": "72 54% 41%",
+        "700": "72 55% 31%",
+        "800": "72 55% 21%"
+      },
+      "coral": {
+        "100": "24 100% 97%",
+        "200": "24 100% 88%",
+        "300": "24 100% 79%",
+        "400": "24 100% 71%",
+        "500": "24 100% 54%",
+        "600": "24 85% 42%",
+        "700": "24 86% 32%",
+        "800": "24 88% 22%"
+      },
+      "pink": {
+        "100": "310 100% 98%",
+        "200": "310 100% 94%",
+        "300": "310 100% 90%",
+        "400": "310 100% 85%",
+        "500": "310 99% 82%",
+        "600": "310 35% 64%",
+        "700": "310 33% 50%",
+        "800": "310 35% 38%"
+      },
+      "green": {
+        "100": "160 64% 96%",
+        "200": "160 64% 85%",
+        "300": "160 64% 76%",
+        "400": "160 64% 67%",
+        "500": "160 95% 30%",
+        "600": "160 95% 24%",
+        "700": "160 95% 18%",
+        "800": "160 96% 12%"
+      },
+      "red": {
+        "100": "0 86% 97%",
+        "200": "0 86% 89%",
+        "300": "0 86% 81%",
+        "400": "0 86% 73%",
+        "500": "0 74% 51%",
+        "600": "0 74% 41%",
+        "700": "0 74% 31%",
+        "800": "0 74% 20%"
+      }
     },
-    "accent": {
-      "primaryBlue": "#007AFF"
+    "semanticTokens": {
+      "light": {
+        "background": "var(--color-background)",
+        "foreground": "var(--color-foreground)",
+        "card": "var(--color-card)",
+        "cardForeground": "var(--color-card-foreground)",
+        "primary": "var(--color-primary)",
+        "primaryForeground": "var(--color-primary-foreground)",
+        "secondary": "var(--color-secondary)",
+        "secondaryForeground": "var(--color-secondary-foreground)",
+        "muted": "var(--color-muted)",
+        "mutedForeground": "var(--color-muted-foreground)",
+        "accent": "var(--color-accent)",
+        "accentForeground": "var(--color-accent-foreground)",
+        "success": "var(--color-success)",
+        "successForeground": "var(--color-success-foreground)",
+        "destructive": "var(--color-destructive)",
+        "destructiveForeground": "var(--color-destructive-foreground)",
+        "border": "var(--color-border)",
+        "input": "var(--color-input)",
+        "chart1": "var(--color-chart-1)",
+        "chart2": "var(--color-chart-2)",
+        "chart3": "var(--color-chart-3)",
+        "chart4": "var(--color-chart-4)",
+        "chart5": "var(--color-chart-5)"
+      },
+      "dark": {
+        "background": "[data-theme=\"dark\"] var(--color-background)",
+        "foreground": "[data-theme=\"dark\"] var(--color-foreground)",
+        "card": "[data-theme=\"dark\"] var(--color-card)",
+        "cardForeground": "[data-theme=\"dark\"] var(--color-card-foreground)",
+        "primary": "[data-theme=\"dark\"] var(--color-primary)",
+        "primaryForeground": "[data-theme=\"dark\"] var(--color-primary-foreground)",
+        "secondary": "[data-theme=\"dark\"] var(--color-secondary)",
+        "secondaryForeground": "[data-theme=\"dark\"] var(--color-secondary-foreground)",
+        "muted": "[data-theme=\"dark\"] var(--color-muted)",
+        "mutedForeground": "[data-theme=\"dark\"] var(--color-muted-foreground)",
+        "accent": "[data-theme=\"dark\"] var(--color-accent)",
+        "accentForeground": "[data-theme=\"dark\"] var(--color-accent-foreground)",
+        "success": "[data-theme=\"dark\"] var(--color-success)",
+        "successForeground": "[data-theme=\"dark\"] var(--color-success-foreground)",
+        "destructive": "[data-theme=\"dark\"] var(--color-destructive)",
+        "destructiveForeground": "[data-theme=\"dark\"] var(--color-destructive-foreground)",
+        "border": "[data-theme=\"dark\"] var(--color-border)",
+        "input": "[data-theme=\"dark\"] var(--color-input)",
+        "chart1": "[data-theme=\"dark\"] var(--color-chart-1)",
+        "chart2": "[data-theme=\"dark\"] var(--color-chart-2)",
+        "chart3": "[data-theme=\"dark\"] var(--color-chart-3)",
+        "chart4": "[data-theme=\"dark\"] var(--color-chart-4)",
+        "chart5": "[data-theme=\"dark\"] var(--color-chart-5)"
+      }
     },
-    "neutral": {
-      "black": "#000000",
-      "darkGray": "#1C1C1E",
-      "mediumGray": "#8E8E93",
-      "lightGray": "#F2F2F7",
-      "offWhite": "#FAFAFA"
-    },
-    "semantic": {
-      "success": "#34C759",
-      "warning": "#FFD60A", 
-      "error": "#FF3B30"
-    },
-    "statusIndicators": {
-      "good": "#34C759",
-      "bad": "#FF3B30",
-      "warning": "#FFD60A"
+    "surfaceHelpers": {
+      "background": "var(--surface-background)",
+      "foreground": "var(--surface-foreground)",
+      "card": "var(--surface-card)",
+      "cardForeground": "var(--surface-card-foreground)",
+      "primary": "var(--surface-primary)",
+      "primaryForeground": "var(--surface-primary-foreground)",
+      "secondary": "var(--surface-secondary)",
+      "secondaryForeground": "var(--surface-secondary-foreground)",
+      "muted": "var(--surface-muted)",
+      "mutedForeground": "var(--surface-muted-foreground)",
+      "success": "var(--surface-success)",
+      "successForeground": "var(--surface-success-foreground)",
+      "destructive": "var(--surface-destructive)",
+      "destructiveForeground": "var(--surface-destructive-foreground)",
+      "border": "var(--surface-border)",
+      "input": "var(--surface-input)",
+      "chartColors": {
+        "1": "var(--chart-color-1)",
+        "2": "var(--chart-color-2)",
+        "3": "var(--chart-color-3)",
+        "4": "var(--chart-color-4)",
+        "5": "var(--chart-color-5)"
+      }
     }
   },
 
@@ -56,32 +181,32 @@
       "title": {
         "fontSize": "3xl",
         "fontWeight": "bold",
-        "color": "black"
+      "color": "surfaceForeground"
       },
       "heading": {
         "fontSize": "xl",
         "fontWeight": "semibold",
-        "color": "black"
+      "color": "surfaceForeground"
       },
       "subheading": {
         "fontSize": "lg",
         "fontWeight": "medium",
-        "color": "darkGray"
+      "color": "surfaceMutedForeground"
       },
       "body": {
         "fontSize": "base",
         "fontWeight": "regular",
-        "color": "darkGray"
+      "color": "surfaceMutedForeground"
       },
       "caption": {
         "fontSize": "sm",
         "fontWeight": "regular",
-        "color": "mediumGray"
+      "color": "surfaceMutedForeground"
       },
       "label": {
         "fontSize": "xs",
         "fontWeight": "medium",
-        "color": "mediumGray"
+      "color": "surfaceMutedForeground"
       }
     }
   },
@@ -136,18 +261,18 @@
 
   "components": {
     "card": {
-      "background": "#FFFFFF",
+      "background": "var(--surface-card)",
       "borderRadius": "xl",
       "padding": "16px",
       "shadow": "card",
-      "border": "none",
+      "border": "1px solid hsl(var(--color-border) / 0.45)",
       "variants": {
         "default": {
-          "background": "#FFFFFF"
+          "background": "var(--surface-card)"
         },
         "subtle": {
-          "background": "#FAFAFA",
-          "border": "1px solid #F2F2F7"
+          "background": "var(--surface-muted)",
+          "border": "1px solid hsl(var(--color-border) / 0.35)"
         }
       }
     },
@@ -159,16 +284,17 @@
       "fontSize": "base",
       "variants": {
         "primary": {
-          "background": "#007AFF",
-          "color": "#FFFFFF"
+          "background": "var(--surface-primary)",
+          "color": "var(--surface-primary-foreground)"
         },
         "secondary": {
-          "background": "#F2F2F7",
-          "color": "#000000"
+          "background": "var(--surface-secondary)",
+          "color": "var(--surface-secondary-foreground)"
         },
         "ghost": {
           "background": "transparent",
-          "color": "#007AFF"
+          "color": "var(--surface-primary)",
+          "border": "1px solid var(--surface-primary)"
         }
       },
       "states": {
@@ -184,7 +310,7 @@
     "listItem": {
       "padding": "12px 16px",
       "borderRadius": "lg",
-      "background": "#FFFFFF",
+      "background": "var(--surface-card)",
       "shadow": "sm",
       "marginBottom": "8px",
       "structure": {
@@ -196,7 +322,8 @@
         "icon": {
           "width": "40px",
           "height": "40px",
-          "borderRadius": "base"
+          "borderRadius": "base",
+          "background": "var(--surface-muted)"
         },
         "content": {
           "flex": 1
@@ -205,7 +332,9 @@
           "padding": "4px 8px",
           "borderRadius": "full",
           "fontSize": "xs",
-          "fontWeight": "medium"
+          "fontWeight": "medium",
+          "background": "var(--surface-muted)",
+          "color": "var(--surface-muted-foreground)"
         }
       }
     },
@@ -215,18 +344,18 @@
       "height": "8px", 
       "borderRadius": "full",
       "variants": {
-        "success": "#34C759",
-        "warning": "#FFD60A",
-        "error": "#FF3B30",
-        "neutral": "#8E8E93"
+        "success": "var(--surface-success)",
+        "warning": "var(--surface-destructive-foreground)",
+        "error": "var(--surface-destructive)",
+        "neutral": "var(--surface-muted-foreground)"
       }
     },
 
     "navigationBar": {
       "height": "44px",
       "padding": "0 16px",
-      "background": "#FFFFFF",
-      "borderBottom": "1px solid #F2F2F7",
+      "background": "var(--surface-background)",
+      "borderBottom": "1px solid hsl(var(--color-border) / 0.6)",
       "structure": {
         "layout": "flex",
         "alignItems": "center",
@@ -236,8 +365,8 @@
 
     "tabBar": {
       "height": "60px",
-      "background": "#FFFFFF",
-      "borderTop": "1px solid #F2F2F7",
+      "background": "var(--surface-background)",
+      "borderTop": "1px solid hsl(var(--color-border) / 0.6)",
       "structure": {
         "layout": "flex",
         "alignItems": "center",
@@ -251,12 +380,11 @@
       "padding": "20px",
       "minHeight": "200px",
       "colorOptions": {
-        "yellow": "#FFE4B5",
-        "pink": "#FFB6C1", 
-        "green": "#F0FFF0",
-        "blue": "#E6F3FF",
-        "purple": "#F3E8FF",
-        "orange": "#FFF0E6"
+        "lime": "var(--chart-color-1)",
+        "coral": "var(--chart-color-2)", 
+        "pink": "var(--chart-color-3)",
+        "sky": "var(--chart-color-4)",
+        "blue": "var(--chart-color-5)"
       },
       "controls": {
         "colorPicker": {
@@ -343,10 +471,10 @@
 
   "usage": {
     "cardLayouts": "Use cards for distinct content groupings with consistent padding and shadows",
-    "colorCoding": "Apply soft colors to differentiate categories or note types",
+    "colorCoding": "Apply semantic tokens (primary, secondary, success, destructive) to differentiate actions and statuses",
     "listStructure": "Maintain consistent spacing and alignment in list items",
     "statusIndicators": "Use small colored dots or badges for status representation",
-    "navigationPattern": "Clean header with title and minimal action buttons",
+    "navigationPattern": "Clean header with token-driven background and border treatments",
     "contentHierarchy": "Lead with visual elements (images/icons), follow with text hierarchy"
   }
 }]

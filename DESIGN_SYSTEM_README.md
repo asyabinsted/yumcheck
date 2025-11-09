@@ -28,7 +28,9 @@ Add the design tokens to your main CSS file:
 
 ```css
 .my-component {
-  background: var(--color-primary-background);
+  background: var(--surface-card);
+  color: var(--surface-card-foreground);
+  border: 1px solid hsl(var(--color-border) / 0.35);
   padding: var(--spacing-4);
   border-radius: var(--border-radius-lg);
   box-shadow: var(--shadow-card);
@@ -49,23 +51,56 @@ Add the design tokens to your main CSS file:
 
 ### Colors
 
-#### Primary Colors
-- `--color-primary-background`: #FFFFFF
-- `--color-primary-surface`: #F8F9FA
-- `--color-primary-card-background`: #FFFFFF
+#### Base Color Primitives (HSL components)
+- Greys: `--grey-100` … `--grey-900`
+- Blues: `--blue-100` … `--blue-800`
+- Limes: `--lime-100` … `--lime-800`
+- Corals: `--coral-100` … `--coral-800`
+- Pinks: `--pink-100` … `--pink-800`
+- Greens: `--green-100` … `--green-800`
+- Reds: `--red-100` … `--red-800`
 
-#### Accent Colors
-- `--color-accent-primary-blue`: #007AFF
+Use these primitives with `hsl(var(--token-name))` when you need direct palette access.
 
-#### Semantic Colors
-- `--color-semantic-success`: #34C759
-- `--color-semantic-warning`: #FFD60A
-- `--color-semantic-error`: #FF3B30
+#### Semantic Tokens (light mode defaults)
+- Backgrounds: `--color-background`, `--color-card`, `--color-foreground`, `--color-card-foreground`
+- Actions: `--color-primary`, `--color-primary-foreground`, `--color-secondary`, `--color-secondary-foreground`
+- Feedback: `--color-muted`, `--color-muted-foreground`, `--color-accent`, `--color-accent-foreground`
+- Status: `--color-success`, `--color-success-foreground`, `--color-destructive`, `--color-destructive-foreground`
+- Structural: `--color-border`, `--color-input`
+- Data viz: `--color-chart-1` … `--color-chart-5`
 
-#### Status Indicators
-- `--color-status-good`: #34C759
-- `--color-status-bad`: #FF3B30
-- `--color-status-warning`: #FFD60A
+Dark mode overrides are defined under `[data-theme="dark"]`, so all semantic tokens adapt automatically.
+
+| Token | Light Mode | Dark Mode | Usage |
+| --- | --- | --- | --- |
+| `--color-background` | `--grey-200` | `--grey-900` | Main application background |
+| `--color-foreground` | `--grey-900` | `--grey-100` | Primary text color |
+| `--color-card` | `--grey-100` | `--grey-800` | Card component background |
+| `--color-card-foreground` | `--grey-900` | `--grey-100` | Text within cards |
+| `--color-primary` | `--blue-500` | `--blue-400` | Primary actions (buttons, highlights) |
+| `--color-primary-foreground` | `--grey-100` | `--grey-100` | Text on primary elements |
+| `--color-secondary` | `--grey-300` | `--grey-700` | Less prominent actions |
+| `--color-secondary-foreground` | `--grey-900` | `--grey-100` | Text on secondary elements |
+| `--color-muted` | `--grey-200` | `--grey-700` | Subdued backgrounds |
+| `--color-muted-foreground` | `--grey-600` | `--grey-500` | De-emphasized text |
+| `--color-accent` | `--grey-100` | `--grey-800` | Highlight for active/focused elements |
+| `--color-accent-foreground` | `--grey-900` | `--grey-100` | Text on accent elements |
+| `--color-destructive` | `--red-500` | `--red-500` | Error and destructive actions |
+| `--color-destructive-foreground` | `--red-400` | `--red-400` | Text/icons on destructive elements |
+| `--color-success` | `--green-500` | `--green-500` | Success messages and icons |
+| `--color-success-foreground` | `--green-500` | `--green-500` | Text/icons on success elements |
+| `--color-border` | `--grey-300` | `--grey-700` | Default border color |
+| `--color-input` | `--grey-300` | `--grey-700` | Form input borders |
+| `--color-chart-1` … `--color-chart-5` | `--lime-500`, `--coral-500`, `--pink-500`, `--blue-200`, `--blue-400` | Same | Data visualization colors |
+
+#### Surface Helpers (ready-to-use CSS vars)
+- `--surface-background`, `--surface-card`, `--surface-muted`, `--surface-secondary`, `--surface-primary`, `--surface-success`, `--surface-destructive`
+- Each helper has a matching `*-foreground` counterpart for readable text/icon colors.
+- Border and input helpers: `--surface-border`, `--surface-input`
+- Chart helpers: `--chart-color-1` … `--chart-color-5`
+
+Prefer surface helpers inside component styles to keep contrast and theming consistent.
 
 ### Typography
 
@@ -126,8 +161,8 @@ Based on a 4px scale:
 ```
 
 **Variants:**
-- `.card` - Default white background
-- `.card-subtle` - Subtle background with light border
+- `.card` - Uses `--surface-card` background and shadow tokens
+- `.card-subtle` - Uses `--surface-muted` background with a subtle border
 
 ### Button Component
 
@@ -141,6 +176,7 @@ Based on a 4px scale:
 - Minimum 44px touch target
 - Hover and active states
 - Consistent padding and typography
+- Semantic color mapping via button token variables
 
 ### List Item Component
 
@@ -258,18 +294,18 @@ Based on a 4px scale:
 - `.shadow-card` - Card shadow
 
 ### Colors
-- `.bg-primary` - Primary background
-- `.bg-surface` - Surface background
+- `.bg-primary` - Primary action background
+- `.bg-surface` - Page background
 - `.bg-success` - Success background
 - `.bg-warning` - Warning background
-- `.bg-error` - Error background
-- `.bg-primary-blue` - Primary blue background
+- `.bg-error` - Destructive background
+- `.bg-primary-blue` - Alias of primary action background
 
 ### Text Colors
-- `.text-black` - Black text
-- `.text-dark-gray` - Dark gray text
-- `.text-medium-gray` - Medium gray text
-- `.text-light-gray` - Light gray text
+- `.text-black` - High-contrast foreground text
+- `.text-dark-gray` - Alias of foreground text
+- `.text-medium-gray` - Muted foreground
+- `.text-light-gray` - Low-emphasis foreground
 
 ### Transitions
 - `.transition-fast` - 150ms transition
@@ -341,25 +377,40 @@ declare module '*.css' {
 // Design token types
 export interface DesignTokens {
   colors: {
-    primary: {
-      background: string;
-      surface: string;
-      cardBackground: string;
-    };
-    accent: {
-      blue: string;
-      green: string;
-      yellow: string;
-      orange: string;
-      red: string;
-      purple: string;
-      pink: string;
+    primitives: {
+      grey: Record<'100' | '200' | '300' | '400' | '500' | '600' | '700' | '800' | '900', string>;
+      blue: Record<'100' | '200' | '300' | '400' | '500' | '600' | '700' | '800', string>;
+      lime: Record<'100' | '200' | '300' | '400' | '500' | '600' | '700' | '800', string>;
+      coral: Record<'100' | '200' | '300' | '400' | '500' | '600' | '700' | '800', string>;
+      pink: Record<'100' | '200' | '300' | '400' | '500' | '600' | '700' | '800', string>;
+      green: Record<'100' | '200' | '300' | '400' | '500' | '600' | '700' | '800', string>;
+      red: Record<'100' | '200' | '300' | '400' | '500' | '600' | '700' | '800', string>;
     };
     semantic: {
+      mode: 'light' | 'dark';
+      background: string;
+      foreground: string;
+      card: string;
+      cardForeground: string;
+      primary: string;
+      primaryForeground: string;
+      secondary: string;
+      secondaryForeground: string;
+      muted: string;
+      mutedForeground: string;
+      accent: string;
+      accentForeground: string;
       success: string;
-      warning: string;
-      error: string;
-      info: string;
+      successForeground: string;
+      destructive: string;
+      destructiveForeground: string;
+      border: string;
+      input: string;
+      chart1: string;
+      chart2: string;
+      chart3: string;
+      chart4: string;
+      chart5: string;
     };
   };
   spacing: {
